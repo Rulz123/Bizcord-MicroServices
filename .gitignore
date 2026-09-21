@@ -7,3 +7,6 @@ TestResults/
 *.suo
 *.nupkg
 coverage/
+.env
+.env.*
+!.env.example

@@ -105,13 +105,102 @@ Health check:
 curl -i http://127.0.0.1:5088/health
 ```
 
+## Docker deployment
+
+Docker is used for the W39 local deployment increment. You need Docker Engine, Docker Compose and the .NET SDK installed locally before running the commands below.
+
+Create a local environment file from the committed template:
+
+```bash
+cp .env.example .env
+```
+
+The `.env` file is ignored by Git. It supplies local RabbitMQ credentials to Compose and must not contain production secrets.
+
+Validate the Compose file and resolved environment references:
+
+```bash
+docker compose config
+```
+
+Build the standalone API image:
+
+```bash
+docker build -t bizcord-channel-management:local .
+```
+
+Build and start the full local environment:
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+Inspect status and logs:
+
+```bash
+docker compose ps
+docker compose logs --no-color rabbitmq
+docker compose logs --no-color channel-management
+```
+
+The API is exposed on:
+
+```text
+http://127.0.0.1:5088/health
+```
+
+RabbitMQ Management is exposed on:
+
+```text
+http://127.0.0.1:15672
+```
+
+Stop the local environment:
+
+```bash
+docker compose down
+```
+
+Use this after source changes to rebuild and restart:
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+### Docker build and NuGet connectivity
+
+In one verified Ubuntu development environment, DNS resolution from Docker's default bridge network worked, but HTTPS requests to `https://api.nuget.org/v3/index.json` timed out. This caused `dotnet restore` inside the Docker build to fail with `NU1301`, even though restore worked directly on the host.
+
+The Dockerfile was verified with this one-time diagnostic command:
+
+```bash
+docker build --network=host --progress=plain \
+	-t bizcord-channel-management:local .
+```
+
+`--network=host` is an environment-specific diagnostic workaround, not the project's default or a portable requirement. Developers whose Docker bridge network can reach NuGet should use the normal `docker build` or `docker compose build` commands.
+
+If this problem occurs, compare host and container access to NuGet and repair the local Docker networking configuration outside this repository. Do not add runtime host networking to the application services.
+
+### Container service discovery
+
+Inside Docker Compose, the API connects to RabbitMQ with the hostname `rabbitmq`. That name is resolved by Compose DNS to the RabbitMQ service container. The API must not use `localhost` in the container because `localhost` would point back to the API container itself, not the RabbitMQ container.
+
+The `channel-management` service uses `depends_on` with `condition: service_healthy`, and RabbitMQ has a `rabbitmq-diagnostics -q ping` health check. This means Compose waits until RabbitMQ reports healthy before starting the API container.
+
+Startup ordering is not a complete runtime resilience strategy. RabbitMQ can still become unavailable after startup. Retries, idempotency, dead-letter queues and outbox support remain future work.
+
 ## Current limitations
 
 - Channel persistence is in-memory only.
 - The liveness health endpoint does not claim RabbitMQ is available.
 - Channel creation publishes after persistence but does not yet use an outbox, so a publish failure after persistence can leave data and messages inconsistent.
-- There is no Dockerfile, Docker Compose setup, API gateway, authentication, authorization or database persistence in this increment.
+- There is no API gateway, authentication, authorization or database persistence in this increment.
+- Docker Compose startup ordering does not protect against broker outages after startup.
+- Full producer-to-consumer verification is not included in this Docker increment.
 
 ## Next increment
 
-Add a Dockerfile and Docker Compose setup with RabbitMQ, including RabbitMQ health checks and service startup ordering suitable for local integration testing.
+Add a future microservice testing increment for producer-to-broker behavior and future consumer integration scenarios.
