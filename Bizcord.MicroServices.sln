@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B3E4BA32-C703-47CF-AC2E-40AD60062971}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizcord.ChannelManagement.Api", "src\Bizcord.ChannelManagement.Api\Bizcord.ChannelManagement.Api.csproj", "{CCAE4FBD-CD6E-4541-8538-9E07FF21508A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizcord.ChannelManagement.Application", "src\Bizcord.ChannelManagement.Application\Bizcord.ChannelManagement.Application.csproj", "{53205BFB-3AAA-4BE1-981E-EAC5A8299F70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizcord.ChannelManagement.Domain", "src\Bizcord.ChannelManagement.Domain\Bizcord.ChannelManagement.Domain.csproj", "{5078363A-1A65-4DB7-AAF9-201CAC0B336E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizcord.ChannelManagement.Infrastructure", "src\Bizcord.ChannelManagement.Infrastructure\Bizcord.ChannelManagement.Infrastructure.csproj", "{73794B0F-B975-41FD-B719-04DC5F2F6336}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6FB4CDCF-848E-4E2F-87D9-6D462D70D2F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizcord.ChannelManagement.Tests", "tests\Bizcord.ChannelManagement.Tests\Bizcord.ChannelManagement.Tests.csproj", "{8D364305-F174-4F97-B7EA-C35B716DC1C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizcord.ChannelManagement.Contracts", "src\Bizcord.ChannelManagement.Contracts\Bizcord.ChannelManagement.Contracts.csproj", "{4E0DEB43-8592-4E5B-BCE8-3F3CAD5C3015}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CCAE4FBD-CD6E-4541-8538-9E07FF21508A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCAE4FBD-CD6E-4541-8538-9E07FF21508A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCAE4FBD-CD6E-4541-8538-9E07FF21508A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCAE4FBD-CD6E-4541-8538-9E07FF21508A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53205BFB-3AAA-4BE1-981E-EAC5A8299F70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53205BFB-3AAA-4BE1-981E-EAC5A8299F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53205BFB-3AAA-4BE1-981E-EAC5A8299F70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53205BFB-3AAA-4BE1-981E-EAC5A8299F70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5078363A-1A65-4DB7-AAF9-201CAC0B336E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5078363A-1A65-4DB7-AAF9-201CAC0B336E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5078363A-1A65-4DB7-AAF9-201CAC0B336E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5078363A-1A65-4DB7-AAF9-201CAC0B336E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73794B0F-B975-41FD-B719-04DC5F2F6336}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73794B0F-B975-41FD-B719-04DC5F2F6336}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73794B0F-B975-41FD-B719-04DC5F2F6336}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73794B0F-B975-41FD-B719-04DC5F2F6336}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D364305-F174-4F97-B7EA-C35B716DC1C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D364305-F174-4F97-B7EA-C35B716DC1C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D364305-F174-4F97-B7EA-C35B716DC1C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D364305-F174-4F97-B7EA-C35B716DC1C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E0DEB43-8592-4E5B-BCE8-3F3CAD5C3015}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E0DEB43-8592-4E5B-BCE8-3F3CAD5C3015}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E0DEB43-8592-4E5B-BCE8-3F3CAD5C3015}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E0DEB43-8592-4E5B-BCE8-3F3CAD5C3015}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CCAE4FBD-CD6E-4541-8538-9E07FF21508A} = {B3E4BA32-C703-47CF-AC2E-40AD60062971}
+		{53205BFB-3AAA-4BE1-981E-EAC5A8299F70} = {B3E4BA32-C703-47CF-AC2E-40AD60062971}
+		{5078363A-1A65-4DB7-AAF9-201CAC0B336E} = {B3E4BA32-C703-47CF-AC2E-40AD60062971}
+		{73794B0F-B975-41FD-B719-04DC5F2F6336} = {B3E4BA32-C703-47CF-AC2E-40AD60062971}
+		{8D364305-F174-4F97-B7EA-C35B716DC1C0} = {6FB4CDCF-848E-4E2F-87D9-6D462D70D2F1}
+		{4E0DEB43-8592-4E5B-BCE8-3F3CAD5C3015} = {B3E4BA32-C703-47CF-AC2E-40AD60062971}
+	EndGlobalSection
+EndGlobal

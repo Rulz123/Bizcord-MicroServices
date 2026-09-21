@@ -1,0 +1,23 @@
+@Bizcord.ChannelManagement.Api_HostAddress = http://localhost:5055
+
+GET {{Bizcord.ChannelManagement.Api_HostAddress}}/health
+Accept: application/json
+
+###
+
+GET {{Bizcord.ChannelManagement.Api_HostAddress}}/api/channels
+Accept: application/json
+
+###
+
+POST {{Bizcord.ChannelManagement.Api_HostAddress}}/api/channels
+Content-Type: application/json
+
+{
+	"guildId": "00000000-0000-0000-0000-000000000001",
+	"name": "General Chat",
+	"type": "Text",
+	"topic": "Team updates"
+}
+
+###
