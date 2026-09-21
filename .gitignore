@@ -1,0 +1,29 @@
+# .NET build output (in every project)
+[Bb]in/
+[Oo]bj/
+
+# Local IDE and user settings
+.vs/
+*.user
+*.suo
+*.rsuser
+*.sln.docstates
+
+# Test and coverage output
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# Local environment files
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Operating system files
+Thumbs.db
+.DS_Store
+
+# diagrams.net automatic backups
+.*.drawio.bkp
