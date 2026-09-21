@@ -1,3 +1,4 @@
+using Bizcord.ChannelManagement.Application.Abstractions;
 using Bizcord.ChannelManagement.Domain;
 
 namespace Bizcord.ChannelManagement.Application;
@@ -5,11 +6,13 @@ namespace Bizcord.ChannelManagement.Application;
 public sealed class ChannelService
 {
     private readonly IChannelRepository repository;
+    private readonly IMessageClient messageClient;
     private readonly TimeProvider timeProvider;
 
-    public ChannelService(IChannelRepository repository, TimeProvider timeProvider)
+    public ChannelService(IChannelRepository repository, IMessageClient messageClient, TimeProvider timeProvider)
     {
         this.repository = repository;
+        this.messageClient = messageClient;
         this.timeProvider = timeProvider;
     }
 
@@ -31,6 +34,9 @@ public sealed class ChannelService
         var channel = Channel.Create(request.GuildId, request.Name, request.Type, request.Topic, request.Settings, now);
 
         await repository.SaveAsync(channel, cancellationToken);
+        var integrationEvent = ChannelContractMapper.ToChannelCreatedEvent(channel, Guid.NewGuid(), timeProvider.GetUtcNow());
+        await messageClient.PublishAsync(integrationEvent, cancellationToken);
+
         return ChannelResponse.FromChannel(channel);
     }
 

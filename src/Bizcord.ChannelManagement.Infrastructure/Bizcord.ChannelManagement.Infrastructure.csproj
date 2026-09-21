@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bizcord.ChannelManagement.Application\Bizcord.ChannelManagement.Application.csproj" />
-    <ProjectReference Include="..\Bizcord.ChannelManagement.Domain\Bizcord.ChannelManagement.Domain.csproj" />
+    <ProjectReference Include="..\Bizcord.ChannelManagement.Contracts\Bizcord.ChannelManagement.Contracts.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -12,7 +12,9 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="EasyNetQ" Version="8.1.7" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
   </ItemGroup>
 
 </Project>

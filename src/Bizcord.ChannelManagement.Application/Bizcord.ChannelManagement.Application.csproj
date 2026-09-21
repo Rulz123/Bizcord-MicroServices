@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bizcord.ChannelManagement.Domain\Bizcord.ChannelManagement.Domain.csproj" />
+    <ProjectReference Include="..\Bizcord.ChannelManagement.Contracts\Bizcord.ChannelManagement.Contracts.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\src\Bizcord.ChannelManagement.Application\Bizcord.ChannelManagement.Application.csproj" />
     <ProjectReference Include="..\..\src\Bizcord.ChannelManagement.Domain\Bizcord.ChannelManagement.Domain.csproj" />
     <ProjectReference Include="..\..\src\Bizcord.ChannelManagement.Infrastructure\Bizcord.ChannelManagement.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Bizcord.ChannelManagement.Contracts\Bizcord.ChannelManagement.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

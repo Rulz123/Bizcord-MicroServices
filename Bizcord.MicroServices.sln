@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6FB4CDCF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizcord.ChannelManagement.Tests", "tests\Bizcord.ChannelManagement.Tests\Bizcord.ChannelManagement.Tests.csproj", "{8D364305-F174-4F97-B7EA-C35B716DC1C0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bizcord.ChannelManagement.Contracts", "src\Bizcord.ChannelManagement.Contracts\Bizcord.ChannelManagement.Contracts.csproj", "{4E0DEB43-8592-4E5B-BCE8-3F3CAD5C3015}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{8D364305-F174-4F97-B7EA-C35B716DC1C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D364305-F174-4F97-B7EA-C35B716DC1C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D364305-F174-4F97-B7EA-C35B716DC1C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E0DEB43-8592-4E5B-BCE8-3F3CAD5C3015}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E0DEB43-8592-4E5B-BCE8-3F3CAD5C3015}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E0DEB43-8592-4E5B-BCE8-3F3CAD5C3015}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E0DEB43-8592-4E5B-BCE8-3F3CAD5C3015}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CCAE4FBD-CD6E-4541-8538-9E07FF21508A} = {B3E4BA32-C703-47CF-AC2E-40AD60062971}
@@ -53,5 +59,6 @@ Global
 		{5078363A-1A65-4DB7-AAF9-201CAC0B336E} = {B3E4BA32-C703-47CF-AC2E-40AD60062971}
 		{73794B0F-B975-41FD-B719-04DC5F2F6336} = {B3E4BA32-C703-47CF-AC2E-40AD60062971}
 		{8D364305-F174-4F97-B7EA-C35B716DC1C0} = {6FB4CDCF-848E-4E2F-87D9-6D462D70D2F1}
+		{4E0DEB43-8592-4E5B-BCE8-3F3CAD5C3015} = {B3E4BA32-C703-47CF-AC2E-40AD60062971}
 	EndGlobalSection
 EndGlobal

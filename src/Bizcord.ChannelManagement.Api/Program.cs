@@ -8,7 +8,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHealthChecks();
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddScoped<ChannelService>();
-builder.Services.AddChannelManagementInfrastructure();
+builder.Services.AddChannelManagementInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
