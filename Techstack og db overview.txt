@@ -1,0 +1,13 @@
+Database:
+Id - GUID - PK
+ServerId - GUID - FK
+Categories - Nvarchar
+TypeOfChannels - Nvarchar - Voice, Text, Thread, Forums
+UserRoles - Nvarchar
+Visibility - Boolean
+WriteRights - Nvarchar
+Description - Nvarchar
+Title - Nvarchar
+
+Technology:
+C#, EntityFramework, RabbitMQ, MSSQL, Tracing/Logging - OpenTelemitry, Prometheus
