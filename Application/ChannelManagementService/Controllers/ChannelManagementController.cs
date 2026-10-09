@@ -1,4 +1,5 @@
 using ChannelManagementService.Services;
+using ChannelManagementService.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChannelManagementService.Controllers;
@@ -33,5 +34,51 @@ public class ChannelManagementController : ControllerBase
         }
 
         return Ok(channel);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateChannel([FromBody] CreateChannelRequest request)
+    {
+        if (request.ServerId == Guid.Empty)
+        {
+            ModelState.AddModelError(
+                nameof(request.ServerId),
+                "ServerId must be a non-empty GUID.");
+
+            return ValidationProblem(ModelState);
+        }
+
+        var channel = await _channelService.CreateChannelAsync(request);
+
+        return CreatedAtAction(
+            nameof(GetChannelById),
+            new { id = channel.id },
+            channel);
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateChannel(Guid id, [FromBody] UpdateChannelRequest request)
+    {
+        var updated = await _channelService.UpdateChannelAsync(id, request);
+
+        if (!updated)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteChannel(Guid id)
+    {
+        var deleted = await _channelService.DeleteChannelAsync(id);
+
+        if (!deleted)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
     }
 }
