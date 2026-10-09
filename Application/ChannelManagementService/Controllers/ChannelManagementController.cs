@@ -1,3 +1,4 @@
+using ChannelManagementService.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChannelManagementService.Controllers;
@@ -6,10 +7,31 @@ namespace ChannelManagementService.Controllers;
 [Route("api/channels")]
 public class ChannelManagementController : ControllerBase
 {
-    [HttpGet]
-    public IActionResult GetChannels()
+    private readonly ChannelService _channelService;
+
+    public ChannelManagementController(ChannelService channelService)
     {
-        return Ok(new[] { "general", "announcements" });
+        _channelService = channelService;
     }
-   
+
+    [HttpGet]
+    public async Task<IActionResult> GetChannels()
+    {
+        var channels = await _channelService.GetChannelsAsync();
+
+        return Ok(channels);
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetChannelById(Guid id)
+    {
+        var channel = await _channelService.GetChannelByIdAsync(id);
+
+        if (channel is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(channel);
+    }
 }
