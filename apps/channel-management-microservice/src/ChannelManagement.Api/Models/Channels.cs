@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ChannelManagementService.Models;
+namespace ChannelManagementMicroservice.Models;
 public class Channels
 {
     [Key]
