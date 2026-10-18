@@ -15,6 +15,14 @@ public class MessageClient(IBus bus) : IMessageClient
             _ => { },
             ct);
 
+    public async Task<TResponse> RequestAsync<TRequest, TResponse>(TRequest request, CancellationToken ct = default)
+        where TRequest : class where TResponse : class
+            => await bus.Rpc.RequestAsync<TRequest, TResponse>(request, _ => { }, ct);
+
+    public async Task RespondAsync<TRequest, TResponse>(Func<TRequest, Task<TResponse>> handler, CancellationToken ct = default)
+        where TRequest : class where TResponse : class
+            => await bus.Rpc.RespondAsync<TRequest, TResponse>((req, _) => handler(req), _ => { }, ct);
+
     public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 
 }
