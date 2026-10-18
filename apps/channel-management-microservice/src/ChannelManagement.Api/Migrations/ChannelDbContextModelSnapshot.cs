@@ -4,19 +4,16 @@ using ChannelManagementService.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ChannelManagementService.Migrations.SqlServerMigrations
+namespace ChannelManagement.Api.Migrations
 {
     [DbContext(typeof(ChannelDbContext))]
-    [Migration("20261007174712_Database_v0")]
-    partial class Database_v0
+    partial class ChannelDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +22,7 @@ namespace ChannelManagementService.Migrations.SqlServerMigrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ChannelManagementService.Models.Channels", b =>
+            modelBuilder.Entity("ChannelManagementMicroservice.Models.Channels", b =>
                 {
                     b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
