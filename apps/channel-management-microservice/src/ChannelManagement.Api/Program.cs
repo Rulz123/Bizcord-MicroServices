@@ -1,8 +1,10 @@
+//Libraries
 using ChannelManagementService.Context;
 using Microsoft.EntityFrameworkCore;
 
+//References
+using ChannelManagement.Api.Messaging.Requests;
 using ChannelManagement.Api.Messaging;
-using ChannelManagement.Api.Messaging.Events;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,7 @@ builder.Services.AddDbContext<ChannelDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddHostedService<ChannelQueryResponder>();
 
 //RabbitMQ_______________________________________________________________________________
 var rabbitMq = builder.Configuration.GetConnectionString("RabbitMq")
@@ -25,6 +28,11 @@ builder.Services.AddMessageClient(rabbitMq);
 //_______________________________________________________________________________________
 
 var app = builder.Build();
+
+// TEMPORARY TEST - delete after it works
+app.MapGet("/test-channels/{serverId:guid}", async (Guid serverId, IMessageClient client) =>
+    await client.RequestAsync<ChannelsAndCategoriesRequest, ChannelsAndCategoriesReply>(
+        new ChannelsAndCategoriesRequest(serverId)));
 
 
 // Configure the HTTP request pipeline.
