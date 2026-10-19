@@ -67,6 +67,7 @@ app.MapGet("/test-channels/{serverId:guid}", async (Guid serverId, IMessageClien
     await client.RequestAsync<ChannelsAndCategoriesRequest, ChannelsAndCategoriesReply>(
         new ChannelsAndCategoriesRequest(serverId)));
 
+app.MapHealthChecks("/health");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

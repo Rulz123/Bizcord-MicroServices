@@ -10,6 +10,7 @@ public class MessagePostedHandler : IMessageHandler<MessagePostedEvent>
     public async Task Handle(MessagePostedEvent message, CancellationToken cancellationToken)
     {
         // Do something domain-specific
+        
 
         // Then publish your result, include MessageId for traceability
         await _messageClient.PublishAsync(new MessagePostedEvent
