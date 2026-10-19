@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /source
-COPY ChannelManagementService.csproj ./
+COPY ChannelManagement.Api.csproj ./
 RUN dotnet restore ChannelManagement.Api.csproj
 COPY . ./
 RUN dotnet publish ChannelManagement.Api.csproj -c Release -o /app/publish --no-restore /p:UseAppHost=false
