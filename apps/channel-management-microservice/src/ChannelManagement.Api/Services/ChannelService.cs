@@ -1,8 +1,8 @@
-using ChannelManagementService.Context;
-using ChannelManagementService.Models;
+using ChannelManagement.Api.Context;
+using ChannelManagement.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChannelManagementService.Services;
+namespace ChannelManagement.Api.Services;
 
 public class ChannelService
 {

@@ -1,7 +1,7 @@
-using ChannelManagementService.Models;
+using ChannelManagement.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChannelManagementService.Context;
+namespace ChannelManagement.Api.Context;
 
 public class ChannelDbContext : DbContext
 {

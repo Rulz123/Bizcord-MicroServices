@@ -1,8 +1,8 @@
-using ChannelManagementService.Services;
-using ChannelManagementService.Models;
+using ChannelManagement.Api.Services;
+using ChannelManagement.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ChannelManagementService.Controllers;
+namespace ChannelManagement.Api.Controllers;
 
 [ApiController]
 [Route("api/channels")]
