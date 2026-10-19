@@ -1,10 +1,9 @@
 # Observability
 
 The current API is in `apps/channel-management-microservice/src/ChannelManagement.Api`.
-OpenTelemetry registration and packages are present, but `/metrics` is not mapped.
-The Prometheus demonstrations below require that endpoint to be restored;
-Prometheus will report the API target as down until then. `/health` checks liveness
-only. See the repository README for RabbitMQ and external SQL configuration.
+OpenTelemetry registration and packages are present, and `/metrics` is mapped for
+Prometheus scraping. `/health` checks liveness only. See the repository README for
+SQL Server/RabbitMQ configuration and the required migration setup.
 
 ## Start
 
@@ -46,10 +45,9 @@ Allow a few seconds for the trace batch exporter. In Jaeger select the service
 and search for `GET /health`.
 
 SQL/EF registration and Swagger are preserved. `/health` only checks application
-liveness, not SQL connectivity. No SQL instance is started by this observability
-stack. Provide a real connection string through deployment configuration before
-using database-dependent endpoints; the existing local development configuration
-is unchanged. The API container runs in Production, so Swagger is not exposed.
+liveness, not SQL connectivity. The Compose stack includes SQL Server and
+RabbitMQ. The API's container connection strings target those services. Apply
+migrations as documented in the README before database-dependent requests. The API container runs in Production, so Swagger is not exposed.
 HttpClient instrumentation is configured, but this scaffold has no outgoing calls
 to demonstrate. The Prometheus ASP.NET Core exporter is pinned to a beta release.
 
@@ -84,6 +82,8 @@ docker compose config --quiet
 docker compose exec -T prometheus promtool check config /etc/prometheus/prometheus.yml
 ```
 
-The Test baseline has no runnable test project. SQL connectivity and outgoing
-HttpClient traces are not covered by this demonstration. Existing nullable-model
-warnings are outside these observability issues.
+The HTTP integration test project contains 14 CRUD test cases; see the
+[README test instructions](../README.md#run-crud-tests). These require the running
+API and migrated SQL database. Outgoing HttpClient traces are not covered by
+this demonstration. Existing nullable-model warnings are outside these
+observability issues.
