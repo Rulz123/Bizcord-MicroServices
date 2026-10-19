@@ -1,5 +1,11 @@
 # Observability
 
+The current API is in `apps/channel-management-microservice/src/ChannelManagement.Api`.
+OpenTelemetry registration and packages are present, but `/metrics` is not mapped.
+The Prometheus demonstrations below require that endpoint to be restored;
+Prometheus will report the API target as down until then. `/health` checks liveness
+only. See the repository README for RabbitMQ and external SQL configuration.
+
 ## Start
 
 Run from the repository root:
@@ -73,7 +79,7 @@ Prometheus or Jaeger.
 ## Checks
 
 ```sh
-dotnet build Application/ChannelManagementService/ChannelManagementService.csproj
+dotnet build apps/channel-management-microservice/src/ChannelManagement.Api/ChannelManagement.Api.csproj
 docker compose config --quiet
 docker compose exec -T prometheus promtool check config /etc/prometheus/prometheus.yml
 ```
