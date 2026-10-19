@@ -8,6 +8,10 @@ public class MessagePostedHandler : IMessageHandler<MessagePostedEvent>
 
     private readonly ChannelDbContext _dbContext;
 
+    public MessagePostedHandler(IMessageClient messageClient)
+    {
+        _messageClient = messageClient;
+    }
     public MessagePostedHandler(IMessageClient messageClient, ChannelDbContext dbContext)
     {
         _messageClient = messageClient;
