@@ -8,21 +8,13 @@ namespace ChannelManagementService.Controllers;
 [Route("[controller]")]
 public class ChannelManagementController : ControllerBase
 {
-    private readonly IConfiguration _configuration;
-    private readonly ChannelDbContext _context;
+    private ChannelDbContext _context;
 
-    public ChannelManagementController()
+    public ChannelManagementController(ChannelDbContext context)
     {
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .AddEnvironmentVariables();
+        _context = context;
 
-        _configuration = builder.Build();
-
-        var optionsBuilder = new DbContextOptionsBuilder<ChannelDbContext>();
-        optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
-
-        _context = new ChannelDbContext(optionsBuilder.Options);
-    }
+        
+      
+    }     
 }

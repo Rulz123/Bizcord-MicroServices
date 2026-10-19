@@ -1,16 +1,29 @@
 using ChannelManagement.Api.Messaging;
+using ChannelManagementMicroservice.Models;
+using ChannelManagementService.Context;
 
 public class MessagePostedHandler : IMessageHandler<MessagePostedEvent>
 {
     private readonly IMessageClient _messageClient;
 
-    public MessagePostedHandler(IMessageClient messageClient)
-        => _messageClient = messageClient;
+    private readonly ChannelDbContext _dbContext;
+
+    public MessagePostedHandler(IMessageClient messageClient, ChannelDbContext dbContext)
+    {
+        _messageClient = messageClient;
+        _dbContext = dbContext;
+    }
 
     public async Task Handle(MessagePostedEvent message, CancellationToken cancellationToken)
     {
         // Do something domain-specific
-        
+        var channel = _dbContext.Channels.FirstOrDefault(c => c.id == message.ChannelId);
+        if(channel == null)
+        {
+            throw new Exception($"Channel with ID {message.ChannelId} not found.");
+        }
+        channel.newMessageCount++;
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
         // Then publish your result, include MessageId for traceability
         await _messageClient.PublishAsync(new MessagePostedEvent
