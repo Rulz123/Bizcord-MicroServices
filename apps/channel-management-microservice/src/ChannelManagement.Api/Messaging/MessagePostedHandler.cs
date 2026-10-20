@@ -8,10 +8,7 @@ public class MessagePostedHandler : IMessageHandler<MessagePostedEvent>
 
     private readonly ChannelDbContext _dbContext;
 
-    public MessagePostedHandler(IMessageClient messageClient)
-    {
-        _messageClient = messageClient;
-    }
+  
     public MessagePostedHandler(IMessageClient messageClient, ChannelDbContext dbContext)
     {
         _messageClient = messageClient;
@@ -21,7 +18,7 @@ public class MessagePostedHandler : IMessageHandler<MessagePostedEvent>
     public async Task Handle(MessagePostedEvent message, CancellationToken cancellationToken)
     {
         // Do something domain-specific
-        var channel = _dbContext.Channels.FirstOrDefault(c => c.id == message.ChannelId);
+        var channel = _dbContext.Channels.FirstOrDefault(c => c.id.Equals(message.ChannelId));
         if(channel == null)
         {
             throw new Exception($"Channel with ID {message.ChannelId} not found.");

@@ -9,7 +9,6 @@ public class ChannelDbContext : DbContext
 
     public ChannelDbContext(DbContextOptions<ChannelDbContext> options) : base(options)
     {
-        DbSet<Channels> Channels = Set<Channels>();
         
     }
 

@@ -31,11 +31,9 @@ services:
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_PID: Developer
-      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:?Set MSSQL_SA_PASSWORD in .env}"
+      MSSQL_SA_PASSWORD: "Password123!"
     ports:
       - "127.0.0.1:1433:1433"
-    volumes:
-      - sqlserver-data:/var/opt/mssql
 
   jaeger:
     image: jaegertracing/all-in-one:1.76.0
