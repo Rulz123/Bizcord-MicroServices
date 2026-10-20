@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ChannelManagementMicroservice.Models;
+namespace ChannelManagement.Api.Models;
 public class Channels
 {
     [Key]
@@ -13,4 +13,5 @@ public class Channels
     public string writerights { get; set; }
     public string description { get; set; }
     public string title { get; set; }
+    public int newMessageCount { get; set; }
 }

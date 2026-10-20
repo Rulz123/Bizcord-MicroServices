@@ -1,15 +1,22 @@
 services:
   channel-management-api:
     build:
-      context: ./Application/ChannelManagementService
+      context: ./apps/channel-management-microservice/src/ChannelManagement.Api
     environment:
       ASPNETCORE_HTTP_PORTS: "8080"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=ChannelManagementDB;User Id=sa;Password=Password123!;TrustServerCertificate=True"
+      ConnectionStrings__RabbitMq: "host=rabbitmq;username=guest;password=guest"
       OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
     ports:
       - "127.0.0.1:${BIZCORD_API_PORT:-18080}:8080"
     depends_on:
-      - jaeger
+      jaeger:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+      sqlserver:
+        condition: service_healthy
 
   prometheus:
     image: prom/prometheus:v3.5.0
@@ -22,6 +29,25 @@ services:
     depends_on:
       - channel-management-api
 
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2025-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: "Password123!"
+    ports:
+      - "127.0.0.1:1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - 'SQLCMDPASSWORD="$${MSSQL_SA_PASSWORD}" /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -C -Q "SELECT 1" -b -o /dev/null'
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 30s
+
   jaeger:
     image: jaegertracing/all-in-one:1.76.0
     environment:
@@ -31,6 +57,15 @@ services:
 
   rabbitmq:
     image: rabbitmq:management
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"
+
+volumes:
+  sqlserver-data:

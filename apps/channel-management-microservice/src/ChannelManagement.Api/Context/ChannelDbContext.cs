@@ -1,17 +1,14 @@
-using ChannelManagementMicroservice.Models;
+using ChannelManagement.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChannelManagementService.Context;
+namespace ChannelManagement.Api.Context;
 
 public class ChannelDbContext : DbContext
 {
-    private string? v;
-
-    public ChannelDbContext(DbContextOptions<ChannelDbContext> options) : base(options)
+    public ChannelDbContext(DbContextOptions<ChannelDbContext> options)
+        : base(options)
     {
-        DbSet<Channels> Channels = Set<Channels>();
-        
     }
 
-    public DbSet<Channels> Channels { get; set; }
+    public DbSet<Channels> Channels => Set<Channels>();
 }

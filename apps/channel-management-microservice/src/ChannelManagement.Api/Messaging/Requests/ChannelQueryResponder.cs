@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 
 //References
-using ChannelManagementService.Context;
+using ChannelManagement.Api.Context;
 
 namespace ChannelManagement.Api.Messaging.Requests;
 
