@@ -1,4 +1,4 @@
-using ChannelManagement.Api.Context;
+﻿using ChannelManagement.Api.Context;
 using ChannelManagement.Api.Messaging;
 using ChannelManagement.Api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +12,7 @@ public class Tests
     public async Task Handle_PublishesResultEvent_WithCorrectMessageId()
     {
         var options = new DbContextOptionsBuilder<ChannelDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .UseSqlServer("Server=tcp:127.0.0.1,1433;Database=ChannelManagementDB;User Id=sa;Password=Password123!;TrustServerCertificate=True")
             .Options;
 
         await using var dbContext = new ChannelDbContext(options);
@@ -61,6 +61,6 @@ public class Tests
                     published.PostedAt == message.PostedAt &&
                     published.ProcessedAt.HasValue),
                 It.IsAny<CancellationToken>()),
-            Times.Once);
+            Times.Once);       
     }
 }
