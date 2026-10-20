@@ -36,6 +36,9 @@ namespace ChannelManagement.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("newMessageCount")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("serverId")
                         .HasColumnType("uniqueidentifier");
 

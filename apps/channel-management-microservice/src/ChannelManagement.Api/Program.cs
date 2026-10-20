@@ -31,7 +31,6 @@ builder.Services.AddControllers();
 builder.Services.AddHealthChecks();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-builder.Services.AddHealthChecks();
 builder.Services.AddHostedService<ChannelQueryResponder>();
 
 //RabbitMQ_______________________________________________________________________________

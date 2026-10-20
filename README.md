@@ -172,3 +172,23 @@ The API restart persistence check was performed manually during development.
 When running the API directly through VS Code instead of Compose, start SQL and
 RabbitMQ and apply migrations first. InMemory practice skips SQL migrations but
 still requires RabbitMQ and cannot verify SQL persistence.
+
+
+## Message-count migration and handler test
+
+The merged message handler adds `Channels.newMessageCount`. Apply pending
+migrations again after pulling this change, including
+`20261020120016_DatabaseV_0.1`, before rebuilding and using the API. Existing
+records receive a count of zero. Use the migration command in the setup section;
+do not remove the SQL volume to update the schema.
+
+The message-handler test is separate from the 14 HTTP CRUD cases and uses an
+isolated EF InMemory database with a mocked message client:
+
+```powershell
+dotnet test tests/UnitTests
+```
+
+It verifies that handling a message persists an incremented channel message count
+and publishes the expected message fields. It does not verify real broker delivery.
+The HTTP CRUD tests still require the running, rebuilt API and migrated SQL database.
