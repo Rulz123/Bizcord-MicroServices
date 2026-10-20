@@ -1,5 +1,4 @@
 using ChannelManagement.Api.Messaging;
-using ChannelManagement.Api.Models;
 using ChannelManagement.Api.Context;
 
 public class MessagePostedHandler : IMessageHandler<MessagePostedEvent>
