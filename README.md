@@ -1,4 +1,5 @@
 # Bizcord-MicroServices
+
 Skole projekt
 
 ## Run the API in Docker (#7)
@@ -15,12 +16,12 @@ docker compose up --build -d
 curl --fail --retry 10 --retry-all-errors --retry-delay 1 http://localhost:18080/health
 ```
 
-| Service | Local URL | Host port override |
-| --- | --- | --- |
-| API health | http://localhost:18080/health | `BIZCORD_API_PORT` |
-| RabbitMQ management | http://localhost:15672 | Not configured |
-| Jaeger | http://localhost:16687 | `BIZCORD_JAEGER_PORT` |
-| Prometheus | http://localhost:19090 | `BIZCORD_PROMETHEUS_PORT` |
+| Service             | Local URL                     | Host port override        |
+| ------------------- | ----------------------------- | ------------------------- |
+| API health          | http://localhost:18080/health | `BIZCORD_API_PORT`        |
+| RabbitMQ management | http://localhost:15672        | Not configured            |
+| Jaeger              | http://localhost:16687        | `BIZCORD_JAEGER_PORT`     |
+| Prometheus          | http://localhost:19090        | `BIZCORD_PROMETHEUS_PORT` |
 
 The API runs as a non-root user in Production, without Swagger. `/health` returns
 `Healthy` for application liveness; it does not check SQL or RabbitMQ connectivity.
@@ -73,7 +74,6 @@ dotnet run --project apps/channel-management-microservice/src/ChannelManagement.
 The HTTP profile listens on `http://localhost:5041`. CRUD endpoints use
 `/api/channels`. InMemory records disappear when the API stops. SQL Server
 connection settings can be overridden with `ConnectionStrings__DefaultConnection`.
-
 
 ## CRUD feature
 
@@ -173,7 +173,6 @@ When running the API directly through VS Code instead of Compose, start SQL and
 RabbitMQ and apply migrations first. InMemory practice skips SQL migrations but
 still requires RabbitMQ and cannot verify SQL persistence.
 
-
 ## Message-count migration and handler test
 
 The merged message handler adds `Channels.newMessageCount`. Apply pending
@@ -209,3 +208,5 @@ producer fields for forward compatibility. These are local serialization contrac
 tests, not verification against an independently running producer or consumer.
 
 Expected results with Unittest: **6** passes.
+
+See [Messaging](docs/Messaging.md) for the message client, events, handlers and design decisions.
