@@ -192,3 +192,4 @@ dotnet test tests/UnitTests
 It verifies that handling a message persists an incremented channel message count
 and publishes the expected message fields. It does not verify real broker delivery.
 The HTTP CRUD tests still require the running, rebuilt API and migrated SQL database.
+Expected result: **6** passed in total with Contract tests.
