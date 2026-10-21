@@ -1,4 +1,4 @@
-**Database** 
+## Database
 
 Vi har valgt at bruge den nyeste version af mssql database, og vi bruger docker til at køre den igennem, da det er noget vi alle kendte, og det er godt understøttet med dokumentation.
 

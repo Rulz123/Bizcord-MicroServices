@@ -1,4 +1,4 @@
-**Unittest handler logik**
+## Unittest handler logik
 
 Unittesten for messagehandler logikken er lavet med Moq og Xunit bibliotekerne. 
 Efter lidt undersøgelse, virkede Moq interessant og simpel i sin opsætning, og virkede kodebesparende, så det skulle prøves.

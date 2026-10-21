@@ -1,4 +1,4 @@
-**Entity framework** 
+## Entity framework
 
 Vi har valgt at bruge Entity Framework, da det giver en automation via code first princippet, og vi derfor ikke selv skal oprette databasen. Det er også et værktøj som vi er rimeligt kendte med, og det giver os en stor besparelse på databehandlings kode, da det virker perfekt med linq.
 Der er også masser af dokumentation for Entity Framework, hvilket gør det nemt at implementere for både nye og mere erfarne udviklere.

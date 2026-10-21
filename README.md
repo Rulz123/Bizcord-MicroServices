@@ -207,3 +207,5 @@ The tests pin outgoing JSON field names, GUID strings, content, and UTC timestam
 Incoming examples cover omitted, null, and populated `ProcessedAt`, plus additional
 producer fields for forward compatibility. These are local serialization contract
 tests, not verification against an independently running producer or consumer.
+
+Expected results with Unittest: **6** passes.
