@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ChannelManagement.Api\ChannelManagement.Api.csproj" />
+    <ProjectReference Include="..\..\apps\channel-management-microservice\src\ChannelManagement.Api\ChannelManagement.Api.csproj" />
   </ItemGroup>
 
 </Project>
