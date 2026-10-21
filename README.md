@@ -151,10 +151,8 @@ With SQL Server and RabbitMQ healthy, the migration applied, and the Compose API
 running:
 
 ```powershell
-dotnet test tests/ChannelManagement.Api.IntegrationTests --logger "console;verbosity=detailed"
+dotnet test apps/channel-management-microservice/tests/ChannelManagement.Api.IntegrationTests
 ```
-
-The detailed console logger displays each test case, its pass/fail result, duration, and failure details.
 
 Expected result: **14 passed**. These tests send real HTTP requests to
 `http://localhost:18080` and use the API's SQL database. They do not launch the
@@ -188,10 +186,24 @@ The message-handler test is separate from the 14 HTTP CRUD cases and uses an
 isolated EF InMemory database with a mocked message client:
 
 ```powershell
-dotnet test tests/UnitTests --logger "console;verbosity=detailed"
+dotnet test tests/UnitTests
 ```
 
 It verifies that handling a message persists an incremented channel message count
 and publishes the expected message fields. It does not verify real broker delivery.
 The HTTP CRUD tests still require the running, rebuilt API and migrated SQL database.
-Expected result: **6** passed in total with Contract tests.
+
+## Message contract tests
+
+The same unit-test project contains five `MessagePostedEvent` contract cases.
+They use the EasyNetQ serializer registered by `AddMessageClient`, without
+connecting to RabbitMQ or SQL Server. Run only these cases with:
+
+```powershell
+dotnet test tests/UnitTests --filter FullyQualifiedName~MessagePostedContractTests
+```
+
+The tests pin outgoing JSON field names, GUID strings, content, and UTC timestamps.
+Incoming examples cover omitted, null, and populated `ProcessedAt`, plus additional
+producer fields for forward compatibility. These are local serialization contract
+tests, not verification against an independently running producer or consumer.
