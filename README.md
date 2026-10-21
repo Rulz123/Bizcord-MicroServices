@@ -151,7 +151,7 @@ With SQL Server and RabbitMQ healthy, the migration applied, and the Compose API
 running:
 
 ```powershell
-dotnet test apps/channel-management-microservice/tests/ChannelManagement.Api.IntegrationTests
+dotnet test tests/ChannelManagement.Api.IntegrationTests --logger "console;verbosity=detailed"
 ```
 
 Expected result: **14 passed**. These tests send real HTTP requests to
@@ -186,7 +186,7 @@ The message-handler test is separate from the 14 HTTP CRUD cases and uses an
 isolated EF InMemory database with a mocked message client:
 
 ```powershell
-dotnet test tests/UnitTests
+dotnet test tests/UnitTests --logger "console;verbosity=detailed"
 ```
 
 It verifies that handling a message persists an incremented channel message count
