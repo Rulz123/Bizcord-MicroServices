@@ -3,32 +3,64 @@
 ## Overview
 
 ChannelManagement communicates with other parts of Bizcord through RabbitMQ.
-It publishes events when channels change, handles incoming messages, and can
-answer requests. The broker is hidden behind an interface so it can be replaced.
+The messaging layer can publish and subscribe to events and send or answer
+requests. The broker is hidden behind an interface so it can be replaced.
 For setup, migrations and running tests, see the [README](../README.md).
+
+This document describes the current state of the messaging layer, which is
+still under development. See "Status and next steps" at the end.
 
 ## Architecture
 
 ```mermaid
 flowchart TD
-    A[Controllers / services / handlers] --> B[IMessageClient]
-    B --> C[EasyNetQMessageClient]
+    A[Handlers / responder / services] --> B[IMessageClient]
+    B --> C[MessageClient]
     C --> D[(RabbitMQ)]
 ```
 
-| Component               | Responsibility                                                                                  |
-| ----------------------- | ----------------------------------------------------------------------------------------------- |
-| `IMessageClient`        | Interface: publish, subscribe, request/reply [CHECK: exact methods]                             |
-| `EasyNetQMessageClient` | The only class that references EasyNetQ                                                         |
-| `AddMessageClient`      | DI registration; reads `ConnectionStrings:RabbitMq`                                             |
-| `Messaging/Events`      | Message classes, e.g. `ChannelCreated`, `MessagePostedEvent` [CHECK]                            |
-| Message handler         | Handles `MessagePostedEvent`: increments `Channels.newMessageCount` and publishes [CHECK: what] |
-| `ChannelQueryResponder` | Answers `ChannelsAndCategoriesRequest` [CHECK: still present?]                                  |
+| Component                   | Responsibility                                                                                                 |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `IMessageClient`            | Interface with `PublishAsync`, `SubscribeAsync`, `RequestAsync` and `RespondAsync`                             |
+| `MessageClient`             | Implements the interface with EasyNetQ; the only class that references EasyNetQ                                |
+| `AddMessageClient`          | DI registration: adds EasyNetQ with `ConnectionStrings:RabbitMq` and registers `IMessageClient` as a singleton |
+| `IMessageHandler<TMessage>` | Interface for handlers: one `Handle(message, cancellationToken)` method                                        |
+| `MessagePostedHandler`      | Handles `MessagePostedEvent`                                                                                   |
+| `ChannelQueryResponder`     | Background service that answers `ChannelsAndCategoriesRequest`                                                 |
+| `JsonMessageSerializer`     | Small System.Text.Json helper (camelCase)                                                                      |
 
 ## Messages
 
-Describe each message: who sends it, who receives it, and its fields.
-[CHECK: copy field lists from the records]
+Events are in `Messaging/Events`, request/reply types in `Messaging/Requests`,
+and `MessagePostedEvent` in `Shared`.
+
+| Message                            | Fields                                                                                                                                             |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ChannelCreated`, `ChannelUpdated` | `ChannelId`, `ServerId`, `Title`, `Description`, `Categories`, `Type`, `UserRoles`, `WriteRights`, `Visibility`                                    |
+| `ChannelDeleted`                   | `ChannelId`, `ServerId`                                                                                                                            |
+| `MessagePostedEvent`               | `MessageId`, `ChannelId`, `AuthorId`, `Content`, `PostedAt`, `ProcessedAt`                                                                         |
+| `ChannelsAndCategoriesRequest`     | `ServerId`                                                                                                                                         |
+| `ChannelsAndCategoriesReply`       | `ServerId`, `Categories`: list of `CategoryDto` (`Name`, `Channels`: list of `ChannelDto` with `Id`, `Title`, `Description`, `Type`, `Visibility`) |
+
+`ChannelUpdated` carries the full state of the channel, so a listener can
+overwrite what it knows without tracking which field changed.
+
+## How it works
+
+**Publishing and subscribing.** `PublishAsync(message)` serializes the message
+to JSON and EasyNetQ routes it by message type to every subscriber.
+`SubscribeAsync<T>(subscriptionId, handler)` registers a handler; subscribers
+with different IDs each receive every message.
+
+**Message handler.** `MessagePostedHandler` looks up the channel by `ChannelId`,
+increments `Channels.newMessageCount`, saves, and publishes a
+`MessagePostedEvent` with `ProcessedAt` set and the original `MessageId` kept
+for traceability. If the channel does not exist, it throws.
+
+**Request/reply.** A caller sends `ChannelsAndCategoriesRequest(serverId)` with
+`RequestAsync` and waits for the reply. The responder is a hosted service that
+registers with the broker at startup. For each request it queries the channels
+of the server and groups them by their category string.
 
 ## Design decisions
 
@@ -38,19 +70,33 @@ Describe each message: who sends it, who receives it, and its fields.
   keys, so a Kafka adapter could implement it.
 - **Message classes, not EF entities.** Entities have navigation properties that
   can cause serialization loops and would tie consumers to the database schema.
-- **Serialization by EasyNetQ.** Messages are serialized by the serializer
-  registered in `AddMessageClient`; contract tests pin the JSON field names.
-  [CHECK: is JsonMessageSerializer still in the code? If not, drop it.]
-- **Scope per message in handlers.** `DbContext` is scoped to an HTTP request;
-  handlers run outside one, so each message gets its own scope.
+- **Scope per request in the responder.** `DbContext` is scoped to an HTTP
+  request, and the responder runs outside one, so it creates a scope for each
+  incoming request through `IServiceScopeFactory`.
+- **Singleton client.** One broker connection is shared by the whole application.
 
 ## Testing
 
-- Message contract tests (`MessagePostedContractTests`) and the handler test
-  are described in the README, sections "Message contract tests" and
+- The `MessagePostedEvent` contract cases and the handler test live in
+  `tests/UnitTests`; see the README sections "Message contract tests" and
   "Message-count migration and handler test".
-- These are local tests: they don't verify real broker delivery.
+- They use the serializer alone or a mocked client, so they do not verify real
+  broker delivery.
+- The request/reply path was verified manually: a request travelled through
+  RabbitMQ, the responder queried SQL Server, and the reply came back.
 
-## Known limitations
+## Status and next steps
 
-- [CHECK: fill in what is actually true, e.g. no filtering of channels by user]
+This is a work in progress. Known open items:
+
+- Subscribing `MessagePostedHandler` to the broker at startup. Since it
+  republishes the same message type it consumes, the result may need its own
+  type to avoid receiving its own output.
+- Publishing `ChannelCreated`, `ChannelUpdated` and `ChannelDeleted` from the
+  CRUD service.
+- Deciding whether `JsonMessageSerializer` is used or removed; EasyNetQ's own
+  serializer currently handles all messages.
+- Replacing `Visibility` with role- or user-based access rules, and filtering the
+  channel reply by the requesting user. This also changes the request.
+- Categories are currently a plain string on the channel; a separate category
+  entity may follow.
