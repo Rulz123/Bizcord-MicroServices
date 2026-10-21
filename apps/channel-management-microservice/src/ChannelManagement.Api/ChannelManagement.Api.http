@@ -1,6 +1,24 @@
 @ChannelManagement.Api_HostAddress = http://localhost:5041
 
-GET {{ChannelManagement.Api_HostAddress}}/weatherforecast/
+GET {{ChannelManagement.Api_HostAddress}}/api/channels
 Accept: application/json
+
+###
+
+POST {{ChannelManagement.Api_HostAddress}}/api/channels
+Content-Type: application/json
+
+{
+  "serverId": "22222222-2222-2222-2222-222222222222",
+  "title": "general",
+  "type": "Text",
+  "categories": "Community",
+  "userRoles": "",
+  "visibility": true,
+  "writeRights": "",
+  "description": "General discussion"
+}
+
+###
 
 ###
