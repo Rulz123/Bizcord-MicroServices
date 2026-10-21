@@ -14,7 +14,7 @@ Code locations:
 - Stored entity and request models: `Models/`
 - Database context: `Context/ChannelDbContext.cs`
 - Schema migrations: `Migrations/`
-- Tests: `apps/channel-management-microservice/tests/ChannelManagement.Api.IntegrationTests/UnitTestCRUD.cs`
+- Tests: `tests/ChannelManagement.Api.IntegrationTests/UnitTestCRUD.cs`
 
 The controller handles HTTP requests/responses and request validation. The
 service maps inputs, queries records, and saves changes. Dependency injection
