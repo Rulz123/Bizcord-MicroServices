@@ -1,19 +1,20 @@
-## Unittest handler logik
+## Unittest handler logic
 
-Unittesten for messagehandler logikken er lavet med Moq og Xunit bibliotekerne. 
-Efter lidt undersøgelse, virkede Moq interessant og simpel i sin opsætning, og virkede kodebesparende, så det skulle prøves.
+The unit test for the MessageHandler logic is implemented using the Moq and xUnit libraries.
 
-Først så laves objekterne til dbContext og en flaks messageClient, som sættes op til at skulle rapportere Task.Complete når en besked er published. 
+After doing some research, Moq seemed interesting and simple to set up. It also appeared to reduce the amount of code required, so I decided to give it a try.
 
-Testen den foregår ved at databasen seedes via EF. Så oprettes en besked med det samme channel.Id som lige blev genereret, så handleren kan have noget at tjekke op imod for success, eller lav et nyt guid i message til channel.Id for at se det fejle. 
+First, the objects for the DbContext and a fake messageClient are created. The messageClient is configured to return Task.CompletedTask when a message is published.
 
-Samtidig så kører messagehandleren en optælling af nye beskeder, så frontenden kan lave farveskift for den channel der er nye beskeder i.
+The test works by seeding the database using EF. A message is then created with the same channel.Id that was just generated, allowing the handler to verify a successful result. Alternatively, a new GUID can be assigned to the message's channel.Id to test the failure scenario.
 
-Efter beskeden er published, så tjekker unittesten om det der er published er det samme som den besked der er sendt, samt at nummeret af beskeder også er steget til 1, og at det hele sker 1 gang. 
+At the same time, the MessageHandler keeps track of the number of new messages, allowing the frontend to change the color of the channel that contains new messages.
 
-Beskeden er formet efter MessagedPostedEvent som er en delt model imellem micro services, og har alle de nødvendige getter og setter for at beskeden har en kontrakt. 
+After the message has been published, the unit test verifies that the published message matches the message that was sent. It also checks that the message count has increased to 1 and that the entire operation has been executed exactly once.
 
-Tests køres med denne kommando:
+The message is structured according to MessagePostedEvent, which is a shared model between microservices and contains all the necessary getters and setters to ensure that the message adheres to the defined contract.
+
+The tests are run using the following command:
 
 ```sh dotnet test tests/UnitTests ```
 

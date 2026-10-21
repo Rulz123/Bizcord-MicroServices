@@ -1,15 +1,18 @@
 ## Entity framework
 
-Vi har valgt at bruge Entity Framework, da det giver en automation via code first princippet, og vi derfor ikke selv skal oprette databasen. Det er også et værktøj som vi er rimeligt kendte med, og det giver os en stor besparelse på databehandlings kode, da det virker perfekt med linq.
-Der er også masser af dokumentation for Entity Framework, hvilket gør det nemt at implementere for både nye og mere erfarne udviklere.
+We have chosen to use Entity Framework because it provides automation through the Code First approach, meaning that we do not have to create the database manually. It is also a tool we are relatively familiar with, and it significantly reduces the amount of data-handling code we need to write, as it works seamlessly with LINQ.
 
-Dette valg er taget, da det er en ret simpel database, og vi nemt kan holde styr på migrationers versionering, og nemt kan skalere med det.
-Nu hvor vi bruger EF ( Entity Framework), så behøver vi slet ikke at skrive selve querys, da dbContext og EF gør det for os. Det virker også perfekt med asynkron funktionalitet, og gør det mega hurtigt at udvide og arbejde sammen med og i andre services. 
-Det virker også perfekt med linq fremgangsmåden, og samler databaseudtrækkene som collections. 
+Entity Framework also has extensive documentation, making it easy to implement for both new and experienced developers.
 
-Når der er en frisk instans af microservicen, så skal der laves en migration og derefter en update database, så databsen bliver lavet via entity framework. 
+This choice was made because the database is relatively simple, making it easy to manage migration versioning and scale the solution as needed.
 
-Dette gøres med følgende kommandoer:
+Since we use EF (Entity Framework), we do not need to write the database queries ourselves, as the DbContext and EF handle this for us. It also works seamlessly with asynchronous operations, making it quick and easy to extend the functionality and integrate with other services.
+
+Entity Framework also works well with the LINQ approach and returns database query results as collections.
+
+When a fresh instance of the microservice is created, a migration must be generated, followed by a database update, so that the database is created through Entity Framework.
+
+This is done using the following commands:
 
 ```sh 
 dotnet ef migrations add DatabaseV_0

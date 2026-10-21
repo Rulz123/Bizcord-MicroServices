@@ -1,8 +1,9 @@
 ## Database
 
-Vi har valgt at bruge den nyeste version af mssql database, og vi bruger docker til at køre den igennem, da det er noget vi alle kendte, og det er godt understøttet med dokumentation.
+We have chosen to use the latest version of the MSSQL database and run it through Docker, as it is a technology we are all familiar with and is well supported by documentation.
 
-Det er også en database som er godt understøttet af microsoft, og vi kan nemt hente images direkte fra dem. 
-Vi kører dog med latest database i vores docker compose, så vi får alle de nye features med i vores database, og derved kan holde fingeren på pulsen i ny teknologi på databasefronten. 
+It is also a database that is well supported by Microsoft, and we can easily pull images directly from them.
 
-Dette gør at vi nemt kan skalere på x-aksen, og gør at vi hurtigt kan opsætte samme database på andre pc’ere og servere.   
+However, we use the latest database image in our Docker Compose configuration to ensure that we get all the newest features available for our database, allowing us to stay up to date with the latest developments in database technology.
+
+This makes it easy to scale horizontally along the x-axis and allows us to quickly set up the same database on other computers and servers.
